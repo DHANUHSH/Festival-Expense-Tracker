@@ -284,6 +284,31 @@ export default function DonationManager({ donations, onAddDonation, onUpdateDona
                         {d.date}
                       </td>
                       <td className="py-3.5 px-4 text-right space-x-1">
+                        {!isItem && due > 0 ? (
+                          <button
+                            onClick={() => {
+                              const promised = Number(d.promisedAmount || d.amount) || 0;
+                              const paid = Number(d.paidAmount || d.amount) || 0;
+                              const text = `🕉️ *Royal Young Boys - Vinayaka Chavithi Committee*\n\nNamaste *${d.donorName} garu*,\nGentle reminder regarding your pledged Chavithi donation:\n\nPledged Amount: ₹ ${promised.toLocaleString('en-IN')}\nPaid: ₹ ${paid.toLocaleString('en-IN')}\n*Balance Due: ₹ ${(promised - paid).toLocaleString('en-IN')}*\n\nKindly submit the balance to support festival arrangements. Dhanyavadhamulu! 🚩`;
+                              window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+                            }}
+                            title="Send WhatsApp Due Reminder"
+                            className="p-1.5 text-amber-600 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition"
+                          >
+                            📲
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              const text = `🕉️ *Sri Vinayaka Chavithi Committee - Official Receipt*\n\nReceipt No: *${d.receiptNo}*\nDonor: *${d.donorName} garu*\nAmount Paid: *₹ ${Number(d.paidAmount || d.amount).toLocaleString('en-IN')}*\nDate: ${d.date}\n\nThank you for your devotion and contribution! May Lord Siddhi Vinayaka bless your family! 🚩`;
+                              window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+                            }}
+                            title="Share WhatsApp Receipt"
+                            className="p-1.5 text-emerald-600 hover:text-emerald-800 hover:bg-emerald-50 rounded-lg transition"
+                          >
+                            📲
+                          </button>
+                        )}
                         <button
                           onClick={() => onViewReceipt(d)}
                           title="Print / View Receipt"

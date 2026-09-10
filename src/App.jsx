@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Banknote, Receipt, FileText, Calendar, Users, BookOpen, Sparkles, RefreshCw } from 'lucide-react';
+import { LayoutDashboard, Banknote, Receipt, FileText, Calendar, Users, BookOpen, Sparkles, RefreshCw, Trophy, Utensils, Volume2, Globe } from 'lucide-react';
 import Dashboard from './components/Dashboard.jsx';
 import DonationManager from './components/DonationManager.jsx';
 import ExpenseManager from './components/ExpenseManager.jsx';
@@ -8,9 +8,16 @@ import CommitteeManager from './components/CommitteeManager.jsx';
 import GothramManager from './components/GothramManager.jsx';
 import Reports from './components/Reports.jsx';
 import ReceiptModal from './components/ReceiptModal.jsx';
+import LadduAuctionManager from './components/LadduAuctionManager.jsx';
+import PrasadamManager from './components/PrasadamManager.jsx';
+import PujaAudioTracker from './components/PujaAudioTracker.jsx';
 import storage, { computeSummary } from './services/storage.js';
+import { translations } from './i18n/translations.js';
 
 export default function App() {
+  const [lang, setLang] = useState('en');
+  const t = translations[lang] || translations.en;
+
   const [activeTab, setActiveTab] = useState('dashboard');
   const [summary, setSummary] = useState({
     totalPromisedDonations: 0,
@@ -34,6 +41,13 @@ export default function App() {
   const [events, setEvents] = useState([]);
   const [members, setMembers] = useState([]);
   const [families, setFamilies] = useState([]);
+
+  // New Features States
+  const [ladduBids, setLadduBids] = useState([]);
+  const [prasadamSponsors, setPrasadamSponsors] = useState([]);
+  const [prasadamChecklist, setPrasadamChecklist] = useState([]);
+  const [samagriChecklist, setSamagriChecklist] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   // Modals state
@@ -68,8 +82,8 @@ export default function App() {
       console.log('Backend API not reached, using local storage mode:', err);
     }
 
+    const db = storage.getLocalStore();
     if (!loadedFromApi) {
-      const db = storage.getLocalStore();
       setDonations(db.donations || []);
       setExpenses(db.expenses || []);
       setEvents(db.events || []);
@@ -78,12 +92,78 @@ export default function App() {
       setSummary(computeSummary(db));
     }
 
+    setLadduBids(db.ladduBids || []);
+    setPrasadamSponsors(db.prasadamSponsors || []);
+    setPrasadamChecklist(db.prasadamChecklist || []);
+    setSamagriChecklist(db.samagriChecklist || []);
+
     setLoading(false);
   };
 
   useEffect(() => {
     refreshData();
   }, []);
+
+  // Handlers for Laddu Bids
+  const handleAddLadduBid = (bidData) => {
+    const db = storage.getLocalStore();
+    const newBid = { id: `bid_${Date.now()}`, ...bidData };
+    const updated = [newBid, ...(db.ladduBids || [])];
+    db.ladduBids = updated;
+    storage.saveLocalStore(db);
+    setLadduBids(updated);
+  };
+
+  const handleUpdateLadduBid = (id, data) => {
+    const db = storage.getLocalStore();
+    const updated = (db.ladduBids || []).map(b => b.id === id ? { ...b, ...data } : b);
+    db.ladduBids = updated;
+    storage.saveLocalStore(db);
+    setLadduBids(updated);
+  };
+
+  const handleDeleteLadduBid = (id) => {
+    const db = storage.getLocalStore();
+    const updated = (db.ladduBids || []).filter(b => b.id !== id);
+    db.ladduBids = updated;
+    storage.saveLocalStore(db);
+    setLadduBids(updated);
+  };
+
+  // Handlers for Prasadam Sponsors
+  const handleAddPrasadamSponsor = (spData) => {
+    const db = storage.getLocalStore();
+    const newSp = { id: `sp_${Date.now()}`, ...spData };
+    const updated = [newSp, ...(db.prasadamSponsors || [])];
+    db.prasadamSponsors = updated;
+    storage.saveLocalStore(db);
+    setPrasadamSponsors(updated);
+  };
+
+  const handleDeletePrasadamSponsor = (id) => {
+    const db = storage.getLocalStore();
+    const updated = (db.prasadamSponsors || []).filter(s => s.id !== id);
+    db.prasadamSponsors = updated;
+    storage.saveLocalStore(db);
+    setPrasadamSponsors(updated);
+  };
+
+  const handleTogglePrasadamChecklist = (id) => {
+    const db = storage.getLocalStore();
+    const updated = (db.prasadamChecklist || []).map(item => item.id === id ? { ...item, completed: !item.completed } : item);
+    db.prasadamChecklist = updated;
+    storage.saveLocalStore(db);
+    setPrasadamChecklist(updated);
+  };
+
+  // Handlers for Samagri Checklist
+  const handleToggleSamagriChecklist = (id) => {
+    const db = storage.getLocalStore();
+    const updated = (db.samagriChecklist || []).map(item => item.id === id ? { ...item, completed: !item.completed } : item);
+    db.samagriChecklist = updated;
+    storage.saveLocalStore(db);
+    setSamagriChecklist(updated);
+  };
 
   // Handlers for Donations
   const handleAddDonation = async (data) => {
@@ -99,7 +179,6 @@ export default function App() {
       }
     } catch (err) {}
 
-    // Fallback Local Storage
     const db = storage.getLocalStore();
     const counter = (db.settings?.receiptCounter || db.donations.length) + 1;
     const receiptNo = `VC-DON-${String(counter).padStart(3, '0')}`;
@@ -405,83 +484,119 @@ export default function App() {
       
       {/* Top Header Navigation */}
       <header className="no-print sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-red-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
           
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 via-rose-600 to-red-700 flex items-center justify-center text-white text-xl shadow-md font-bold">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 via-rose-600 to-red-700 flex items-center justify-center text-white text-xl shadow-md font-bold shrink-0">
               🕉️
             </div>
-            <div>
+            <div className="hidden md:block">
               <h1 className="text-base sm:text-lg font-black text-red-950 tracking-tight flex items-center gap-1.5">
-                Royal Young Boys <span className="text-red-700 text-xs px-2 py-0.5 rounded-full bg-red-100 font-bold border border-red-200">2026</span>
+                {t.appTitle} <span className="text-red-700 text-xs px-2 py-0.5 rounded-full bg-red-100 font-bold border border-red-200">2026</span>
               </h1>
               <p className="text-[10px] text-red-700 font-bold tracking-wider uppercase">
-                Ganesh Agamanam Accounts & Gothralu Tracker
+                {t.appSubtitle}
               </p>
             </div>
           </div>
 
           {/* Nav Tabs */}
-          <nav className="flex items-center gap-1 sm:gap-2">
+          <nav className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-2">
             <button
               onClick={() => setActiveTab('dashboard')}
-              className={`px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
                 activeTab === 'dashboard'
                   ? 'bg-red-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-red-900 hover:bg-red-50'
               }`}
             >
               <LayoutDashboard className="w-4 h-4" />
-              <span>Dashboard</span>
+              <span>{t.dashboard}</span>
             </button>
 
             <button
               onClick={() => setActiveTab('donations')}
-              className={`px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
                 activeTab === 'donations'
                   ? 'bg-red-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-red-900 hover:bg-red-50'
               }`}
             >
               <Banknote className="w-4 h-4" />
-              <span>Donations ({summary.donationCount || 0})</span>
+              <span>{t.donations} ({summary.donationCount || 0})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('expenses')}
-              className={`px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
                 activeTab === 'expenses'
                   ? 'bg-red-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-red-900 hover:bg-red-50'
               }`}
             >
               <Receipt className="w-4 h-4" />
-              <span>Expenses ({summary.expenseCount || 0})</span>
+              <span>{t.expenses} ({summary.expenseCount || 0})</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('laddu')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
+                activeTab === 'laddu'
+                  ? 'bg-amber-500 text-red-950 shadow-sm font-black'
+                  : 'text-slate-600 hover:text-amber-900 hover:bg-amber-50'
+              }`}
+            >
+              <Trophy className="w-4 h-4 text-amber-600" />
+              <span>{t.ladduAuction}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('prasadam')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
+                activeTab === 'prasadam'
+                  ? 'bg-orange-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-orange-900 hover:bg-orange-50'
+              }`}
+            >
+              <Utensils className="w-4 h-4 text-orange-600" />
+              <span>{t.prasadam}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('puja')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
+                activeTab === 'puja'
+                  ? 'bg-purple-700 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-purple-900 hover:bg-purple-50'
+              }`}
+            >
+              <Volume2 className="w-4 h-4 text-purple-600" />
+              <span>{t.pujaAudio}</span>
             </button>
 
             <button
               onClick={() => setActiveTab('gothram')}
-              className={`px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
                 activeTab === 'gothram'
                   ? 'bg-red-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-red-900 hover:bg-red-50'
               }`}
             >
               <BookOpen className="w-4 h-4" />
-              <span>Gothralu ({summary.familyCount || 0})</span>
+              <span>{t.gothram} ({summary.familyCount || 0})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('committee')}
-              className={`px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition relative ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition relative shrink-0 ${
                 activeTab === 'committee'
                   ? 'bg-red-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-red-900 hover:bg-red-50'
               }`}
             >
               <Users className="w-4 h-4" />
-              <span>Committee</span>
+              <span>{t.committee}</span>
               {inMandapamCount > 0 && (
                 <span className="px-1.5 py-0.2 bg-emerald-500 text-white text-[10px] rounded-full font-bold">
                   {inMandapamCount}
@@ -491,36 +606,48 @@ export default function App() {
 
             <button
               onClick={() => setActiveTab('events')}
-              className={`px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
                 activeTab === 'events'
                   ? 'bg-red-600 text-white shadow-sm'
                   : 'text-slate-600 hover:text-red-900 hover:bg-red-50'
               }`}
             >
               <Calendar className="w-4 h-4" />
-              <span>Events ({summary.eventCount || 13})</span>
+              <span>{t.events} ({summary.eventCount || 13})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('reports')}
-              className={`px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
                 activeTab === 'reports'
                   ? 'bg-red-900 text-white shadow-sm'
                   : 'text-slate-600 hover:text-red-900 hover:bg-red-50'
               }`}
             >
               <FileText className="w-4 h-4" />
-              <span>Statement</span>
+              <span>{t.reports}</span>
+            </button>
+          </nav>
+
+          {/* Right Action Bar: Language Switcher & Refresh */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setLang(l => l === 'en' ? 'te' : 'en')}
+              className="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-900 font-extrabold text-xs rounded-xl transition flex items-center gap-1 border border-red-200"
+              title="Toggle Telugu / English"
+            >
+              <Globe className="w-3.5 h-3.5 text-red-700" />
+              <span>{lang === 'en' ? 'తెలుగు' : 'English'}</span>
             </button>
 
             <button
               onClick={refreshData}
               title="Refresh Data"
-              className="p-2 text-slate-400 hover:text-red-700 hover:bg-red-50 rounded-xl transition"
+              className="p-1.5 text-slate-400 hover:text-red-700 hover:bg-red-50 rounded-xl transition"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-red-600' : ''}`} />
             </button>
-          </nav>
+          </div>
 
         </div>
       </header>
@@ -567,6 +694,35 @@ export default function App() {
             onDeleteExpense={handleDeleteExpense}
             isAddOpen={isAddExpenseOpen}
             setIsAddOpen={setIsAddExpenseOpen}
+          />
+        )}
+
+        {activeTab === 'laddu' && (
+          <LadduAuctionManager
+            bids={ladduBids}
+            onAddBid={handleAddLadduBid}
+            onUpdateBid={handleUpdateLadduBid}
+            onDeleteBid={handleDeleteLadduBid}
+            lang={lang}
+          />
+        )}
+
+        {activeTab === 'prasadam' && (
+          <PrasadamManager
+            sponsors={prasadamSponsors}
+            checklist={prasadamChecklist}
+            onAddSponsor={handleAddPrasadamSponsor}
+            onDeleteSponsor={handleDeletePrasadamSponsor}
+            onToggleChecklist={handleTogglePrasadamChecklist}
+            lang={lang}
+          />
+        )}
+
+        {activeTab === 'puja' && (
+          <PujaAudioTracker
+            samagriChecklist={samagriChecklist}
+            onToggleSamagri={handleToggleSamagriChecklist}
+            lang={lang}
           />
         )}
 

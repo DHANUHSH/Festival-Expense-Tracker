@@ -66,6 +66,28 @@ function getLocalStore() {
     families: defaultDbData.families || [
       { id: "fam_1", familyHead: "Kothapalli Ramesh", gothram: "Kasyapa", familyMembers: "Lakshmi (Wife), Rahul (Son)", phone: "9876543210", address: "", poojaRequested: "Laxmiganapathi Homam", date: "2026-09-09" }
     ],
+    ladduBids: [
+      { id: "bid_1", bidderName: "Sri Chintu Garu", amount: 15000, gothram: "Shiva Gothram", phone: "9876543210", paymentStatus: "Pending", timestamp: "2026-09-09" },
+      { id: "bid_2", bidderName: "Sri Ajay Garu", amount: 12000, gothram: "Kasyapa Gothram", phone: "9876543211", paymentStatus: "Paid", timestamp: "2026-09-09" }
+    ],
+    prasadamSponsors: [
+      { id: "sp_1", sponsorName: "Prasad & Family", item: "Anna Dhanam (Lunch)", date: "2026-09-14", phone: "9876543210" },
+      { id: "sp_2", sponsorName: "Chaitu & Family", item: "Evening Prasadam", date: "2026-09-15", phone: "9876543212" }
+    ],
+    prasadamChecklist: [
+      { id: "pc_1", name: "25kg Sona Masoori Rice (10 Bags)", completed: true },
+      { id: "pc_2", name: "Toor Dal (50 kg)", completed: true },
+      { id: "pc_3", name: "Pure Cow Ghee (15 Litres)", completed: false },
+      { id: "pc_4", name: "Cooking Oil (5 Tins)", completed: false },
+      { id: "pc_5", name: "Banana Leaf Plates (2000 Nos)", completed: false }
+    ],
+    samagriChecklist: [
+      { id: "sc_1", name: "Flowers (Garlands & Loose Lotus)", completed: true },
+      { id: "sc_2", name: "Coconuts (108 Nos)", completed: true },
+      { id: "sc_3", name: "Camphor, Incense & Oil Wicks", completed: true },
+      { id: "sc_4", name: "Betel Leaves & Areca Nuts", completed: false },
+      { id: "sc_5", name: "Sandalwood Paste & Turmeric Kumkum", completed: true }
+    ],
     settings: defaultDbData.settings || {
       eventName: "Royal Young Boys Association - Ganesh Agamanam 2026",
       year: 2026,

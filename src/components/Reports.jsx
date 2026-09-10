@@ -12,7 +12,34 @@ export default function Reports({ summary, donations, expenses, events = [] }) {
   } = summary || {};
 
   const handleDownloadCSV = () => {
-    window.location.href = '/api/export/csv';
+    let csv = "Category,ID/Receipt,Name,Details,Promised/Total (INR),Paid/Advance (INR),Due (INR),Date\n";
+    
+    // Add Donations
+    donations.forEach(d => {
+      const isItem = d.donationType === 'Item' || Boolean(d.itemName);
+      const p = Number(d.promisedAmount !== undefined ? d.promisedAmount : d.amount) || 0;
+      const pd = Number(d.paidAmount !== undefined ? d.paidAmount : d.amount) || 0;
+      const due = Math.max(0, p - pd);
+      const details = isItem ? `${d.itemName} (${d.itemQuantity || 1})` : (d.paymentMode || 'Cash');
+      csv += `"Donation","${d.receiptNo || ''}","${d.donorName || ''}","${details}",${p},${pd},${due},"${d.date || ''}"\n`;
+    });
+
+    // Add Expenses
+    expenses.forEach(e => {
+      const tot = Number(e.totalAmount !== undefined ? e.totalAmount : e.amount) || 0;
+      const adv = Number(e.advancePaid !== undefined ? e.advancePaid : e.amount) || 0;
+      const due = Math.max(0, tot - adv);
+      csv += `"Expense","${e.category || ''}","${e.title || ''}","Spent by: ${e.spentBy || ''}",${tot},${adv},${due},"${e.date || ''}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Vinayaka_Chavithi_Ledger_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handlePrintReport = () => {
