@@ -100,8 +100,13 @@ function getLocalStore() {
   return initial;
 }
 
+import cloudSync from './cloudSync.js';
+
 function saveLocalStore(db) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+  try {
+    cloudSync.broadcastMutation(db);
+  } catch (e) {}
 }
 
 export function computeSummary(db) {

@@ -12,6 +12,7 @@ import LadduAuctionManager from './components/LadduAuctionManager.jsx';
 import PrasadamManager from './components/PrasadamManager.jsx';
 import PujaAudioTracker from './components/PujaAudioTracker.jsx';
 import storage, { computeSummary } from './services/storage.js';
+import cloudSync from './services/cloudSync.js';
 import { translations } from './i18n/translations.js';
 
 export default function App() {
@@ -100,8 +101,28 @@ export default function App() {
     setLoading(false);
   };
 
+  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
+  const [roomInput, setRoomInput] = useState(cloudSync.getRoomCode());
+
   useEffect(() => {
     refreshData();
+    const unsubscribe = cloudSync.subscribe((remoteStore) => {
+      if (remoteStore) {
+        setDonations(remoteStore.donations || []);
+        setExpenses(remoteStore.expenses || []);
+        setEvents(remoteStore.events || []);
+        setMembers(remoteStore.members || []);
+        setFamilies(remoteStore.families || []);
+        setLadduBids(remoteStore.ladduBids || []);
+        setPrasadamSponsors(remoteStore.prasadamSponsors || []);
+        setPrasadamChecklist(remoteStore.prasadamChecklist || []);
+        setSamagriChecklist(remoteStore.samagriChecklist || []);
+        setSummary(computeSummary(remoteStore));
+      } else {
+        refreshData();
+      }
+    });
+    return () => unsubscribe();
   }, []);
 
   // Handlers for Laddu Bids
@@ -629,8 +650,18 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Right Action Bar: Language Switcher & Refresh */}
+          {/* Right Action Bar: Live Sync, Language Switcher & Refresh */}
           <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setIsSyncModalOpen(true)}
+              className="px-2.5 py-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-950 font-black text-xs rounded-xl flex items-center gap-1.5 border border-emerald-300 shadow-sm transition"
+              title="Click to configure Festival Cloud Room"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+              <span className="hidden sm:inline">Live:</span>
+              <span>{cloudSync.getRoomCode()}</span>
+            </button>
+
             <button
               onClick={() => setLang(l => l === 'en' ? 'te' : 'en')}
               className="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-900 font-extrabold text-xs rounded-xl transition flex items-center gap-1 border border-red-200"
@@ -768,6 +799,69 @@ export default function App() {
           donation={selectedReceiptDonation}
           onClose={() => setSelectedReceiptDonation(null)}
         />
+      )}
+
+      {/* Cloud Sync Settings Modal */}
+      {isSyncModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-in fade-in zoom-in duration-150 border border-emerald-200">
+            <div className="flex items-center justify-between border-b border-emerald-100 pb-3">
+              <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>Live Multi-Phone Sync Settings</span>
+              </h3>
+              <button
+                onClick={() => setIsSyncModalOpen(false)}
+                className="text-slate-400 hover:text-slate-700 font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs text-slate-600">
+              <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 font-semibold space-y-1">
+                <p className="font-bold text-sm text-emerald-950">📱 How Realtime Sync Works:</p>
+                <p>All smartphones at the Mandapam sharing the same <strong>Festival Room Code</strong> will sync donations, expenses, laddu bids, and family gothrams instantly in real-time!</p>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Festival Room Code
+                </label>
+                <input
+                  type="text"
+                  value={roomInput}
+                  onChange={(e) => setRoomInput(e.target.value.toUpperCase())}
+                  placeholder="e.g. VC-2026-ROYALBOYS"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-black text-slate-900 tracking-wider focus:ring-2 focus:ring-emerald-500 outline-none uppercase"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSyncModalOpen(false)}
+                  className="px-4 py-2 text-slate-600 font-bold hover:bg-slate-100 rounded-xl"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (roomInput.trim()) {
+                      cloudSync.setRoomCode(roomInput.trim());
+                      refreshData();
+                    }
+                    setIsSyncModalOpen(false);
+                  }}
+                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl shadow-md transition"
+                >
+                  Save & Connect Room
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Footer */}
