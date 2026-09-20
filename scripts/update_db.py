@@ -1,6 +1,6 @@
 import json
 
-# Royal Young Boys Donations (13 items) -> Total: 1,18,599
+# Royal Young Boys Paid Donations (13 items) -> Total: 1,18,599
 ryb_donations = [
     {"name": "2025 Balance Carryover", "amount": 23000, "notes": "Previous year 2025 balance carryover"},
     {"name": "Ajay", "amount": 45000, "notes": "Royal Young Boys Donation"},
@@ -54,17 +54,26 @@ reddys_donations = [
     {"name": "KUMARI", "amount": 1000}
 ]
 
-# Pending Dues (3 items)
-dues = [
-    {"name": "Daivik", "amount": 1116, "notes": "Pending Due Donation"},
-    {"name": "Santosh yas", "amount": 2116, "notes": "Pending Due Donation"},
-    {"name": "Sai Patnala", "amount": 5116, "notes": "Pending Due Donation"}
+# Committee Pending Dues List
+committee_dues = [
+    {"name": "Pavan jaddu", "amount": 1116, "notes": "Committee Pending Due"},
+    {"name": "Ravi yerra", "amount": 1116, "notes": "Committee Pending Due"},
+    {"name": "Sai Patnala", "amount": 5116, "notes": "Committee Pending Due"},
+    {"name": "Praveen", "amount": 2116, "notes": "Committee Pending Due"},
+    {"name": "Santosh S", "amount": 2116, "notes": "Committee Pending Due"},
+    {"name": "Kishore Reddy", "amount": 2116, "notes": "Committee Pending Due"},
+    {"name": "Jagadish", "amount": 1116, "notes": "Committee Pending Due"},
+    {"name": "Shashi", "amount": 1116, "notes": "Committee Pending Due"},
+    {"name": "Satti babu", "amount": 0, "notes": "Committee Pending Due (Amount TBD)"},
+    {"name": "Jaswanth", "amount": 1516, "notes": "Committee Pending Due"},
+    {"name": "Venky", "amount": 0, "notes": "Committee Pending Due (Amount TBD)"},
+    {"name": "Daivik", "amount": 1116, "notes": "Pending Due Donation"}
 ]
 
 all_donations = []
 counter = 1
 
-# Process Paid Donations
+# Paid Donations
 for item in ryb_donations:
     all_donations.append({
         "id": f"don_{counter}",
@@ -116,8 +125,8 @@ for item in reddys_donations:
     })
     counter += 1
 
-# Process Dues
-for item in dues:
+# Committee Dues
+for item in committee_dues:
     all_donations.append({
         "id": f"don_{counter}",
         "receiptNo": f"VC-DON-{str(counter).zfill(3)}",
@@ -129,20 +138,19 @@ for item in dues:
         "amount": 0,
         "paymentMode": "Cash",
         "phone": "",
-        "date": "2026-09-15",
-        "notes": item.get("notes", "Pending Due Donation")
+        "date": "2026-09-20",
+        "notes": item["notes"]
     })
     counter += 1
 
-# Load existing db.json
+# Load db.json
 db_path = "C:/Users/dhanu/.gemini/antigravity/scratch/vinayaka-chavithi-tracker/server/data/db.json"
 with open(db_path, "r", encoding="utf-8") as f:
     db = json.load(f)
 
-# Update donations
 db["donations"] = all_donations
 
-# Update expenses so total spent = 1,75,006
+# Expenses
 expenses = [
     { "id": "exp_1", "title": "Ganesh IDOL", "category": "Idol/Pratima", "totalAmount": 45000, "advancePaid": 45000, "dueAmount": 0, "amount": 45000, "date": "2026-09-09", "paidTo": "", "spentBy": "", "notes": "6ft Ganesh Idol" },
     { "id": "exp_2", "title": "Labour for site clearance", "category": "Tent/Pandal & Stage", "totalAmount": 1800, "advancePaid": 1800, "dueAmount": 0, "amount": 1800, "date": "2026-09-09", "paidTo": "", "spentBy": "", "notes": "Site clearance labour" },
@@ -178,4 +186,4 @@ db["settings"]["receiptCounter"] = counter
 with open(db_path, "w", encoding="utf-8") as f:
     json.dump(db, f, indent=2, ensure_ascii=False)
 
-print(f"Successfully updated db.json with {len(all_donations)} donations and {len(expenses)} expenses.")
+print(f"Successfully updated db.json with {len(all_donations)} donations.")
