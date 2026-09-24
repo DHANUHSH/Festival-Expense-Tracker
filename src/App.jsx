@@ -585,6 +585,17 @@ export default function App() {
             </button>
 
             <button
+              onClick={() => setActiveTab('videoInvite')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
+                activeTab === 'videoInvite'
+                  ? 'bg-amber-400 text-red-950 shadow-sm font-black'
+                  : 'text-amber-700 bg-amber-50 hover:bg-amber-100 font-extrabold border border-amber-300'
+              }`}
+            >
+              <span>🎬 ఆహ్వానం (Video Invite)</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('puja')}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 ${
                 activeTab === 'puja'
@@ -747,6 +758,31 @@ export default function App() {
             onToggleChecklist={handleTogglePrasadamChecklist}
             lang={lang}
           />
+        )}
+
+        {activeTab === 'videoInvite' && (
+          <div className="bg-red-950 rounded-3xl p-4 border-2 border-amber-400 shadow-2xl space-y-4">
+            <div className="flex justify-between items-center text-amber-300 font-bold px-2">
+              <h3 className="text-lg font-black flex items-center gap-2">
+                <span>🤖 Doraemon & Nobita Telugu Video Invitation</span>
+              </h3>
+              <a
+                href="/doraemon_invitation.html"
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-1.5 bg-amber-400 text-red-950 rounded-xl text-xs font-black hover:bg-amber-300 transition"
+              >
+                🔗 Open Full Screen Link
+              </a>
+            </div>
+            <div className="w-full h-[650px] bg-black rounded-2xl overflow-hidden">
+              <iframe
+                src="/doraemon_invitation.html"
+                title="Doraemon & Nobita Telugu Anna Santharpana Invitation"
+                className="w-full h-full border-0"
+              ></iframe>
+            </div>
+          </div>
         )}
 
         {activeTab === 'puja' && (
