@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8">
+  <title>Doraemon & Nobita Anna Santharpana Invitation 🕉️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes bounce-gentle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes talk-mouth {
+      0%, 100% { ry: 3px; }
+      50% { ry: 10px; }
+    }
+    @keyframes arm-wave {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-18deg); }
+    }
+    @keyframes eye-blink {
+      0%, 90%, 100% { scale: 1 1; }
+      95% { scale: 1 0.1; }
+    }
+    .anim-doraemon { animation: bounce-gentle 3s infinite ease-in-out; }
+    .anim-nobita { animation: bounce-gentle 3.2s infinite ease-in-out 0.3s; }
+    .talking .mouth { animation: talk-mouth 0.25s infinite ease-in-out; }
+    .blink { animation: eye-blink 4s infinite; transform-origin: center; }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-red-950 via-rose-900 to-amber-950 text-white font-sans min-h-screen p-4 sm:p-6 flex items-center justify-center">
+
+  <div class="max-w-3xl w-full bg-red-900/90 border-2 border-amber-400/70 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden backdrop-blur-md">
+    
+    <!-- Marigold Floral Top Garland -->
+    <div class="absolute top-0 left-0 right-0 h-4 bg-gradient-to-r from-amber-400 via-orange-500 via-yellow-400 to-amber-500 shadow-md"></div>
+
+    <!-- Header Section -->
+    <div class="text-center pt-2 space-y-2">
+      <div class="inline-flex items-center gap-2 px-4 py-1 bg-amber-400/20 text-amber-300 rounded-full text-xs font-black uppercase tracking-widest border border-amber-300/40 shadow-sm">
+        <span>🕉️ శ్రీ వినాయక స్వామి వారధి 2026</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-black text-amber-300 tracking-tight drop-shadow-md">
+        మహా అన్నసంతర్పణ ఆహ్వాన పత్రిక 🍲
+      </h1>
+      <p class="text-xs sm:text-sm text-amber-100 font-bold">
+        ఆహ్వానించేవారు: డోరేమాన్ & నోబితా (Doraemon & Nobita Special Invitation)
+      </p>
+    </div>
+
+    <!-- 2D Animated Stage Scene -->
+    <div class="relative bg-gradient-to-b from-amber-950/80 via-red-950/90 to-amber-900/90 border-2 border-amber-400/50 rounded-3xl p-4 sm:p-6 overflow-hidden min-h-[320px] flex flex-col justify-between shadow-inner">
+      
+      <!-- Festive Diyas Background -->
+      <div class="absolute top-4 left-6 text-2xl animate-pulse">🪔</div>
+      <div class="absolute top-4 right-6 text-2xl animate-pulse">🪔</div>
+      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-4xl opacity-20 pointer-events-none">🕉️</div>
+
+      <!-- Dialogue Subtitle Bubble -->
+      <div id="dialogueBox" class="bg-amber-100/95 text-red-950 rounded-2xl p-4 shadow-xl border-2 border-amber-400 text-center min-h-[80px] flex items-center justify-center transition-all">
+        <p id="dialogueText" class="text-sm sm:text-base font-black leading-relaxed">
+          ▶ "వీడియో ప్లే చేయండి" బటన్‌పై నొక్కండి డోరేమాన్ & నోబితా తెలుగు ఆహ్వానం వినడానికి!
+        </p>
+      </div>
+
+      <!-- Animated Characters Row -->
+      <div class="flex items-end justify-around py-4">
+        
+        <!-- DORAEMON SVG CHARACTER -->
+        <div id="doraemonChar" class="anim-doraemon flex flex-col items-center">
+          <div class="relative w-36 h-40 sm:w-44 sm:h-48">
+            <svg viewBox="0 0 200 220" class="w-full h-full drop-shadow-lg">
+              <circle cx="100" cy="90" r="75" fill="#0096ff" stroke="#000" stroke-width="3"/>
+              <circle cx="100" cy="102" r="58" fill="#ffffff" stroke="#000" stroke-width="2"/>
+              <g class="blink">
+                <ellipse cx="82" cy="62" rx="13" ry="18" fill="#ffffff" stroke="#000" stroke-width="2"/>
+                <ellipse cx="118" cy="62" rx="13" ry="18" fill="#ffffff" stroke="#000" stroke-width="2"/>
+                <circle cx="86" cy="65" r="5" fill="#000"/>
+                <circle cx="114" cy="65" r="5" fill="#000"/>
+              </g>
+              <circle cx="100" cy="80" r="10" fill="#ff0000" stroke="#000" stroke-width="2"/>
+              <line x1="100" y1="90" x2="100" y2="125" stroke="#000" stroke-width="2"/>
+              <line x1="45" y1="75" x2="80" y2="82" stroke="#000" stroke-width="2"/>
+              <line x1="40" y1="90" x2="78" y2="92" stroke="#000" stroke-width="2"/>
+              <line x1="45" y1="105" x2="80" y2="100" stroke="#000" stroke-width="2"/>
+              <line x1="155" y1="75" x2="120" y2="82" stroke="#000" stroke-width="2"/>
+              <line x1="160" y1="90" x2="122" y2="92" stroke="#000" stroke-width="2"/>
+              <line x1="155" y1="105" x2="120" y2="100" stroke="#000" stroke-width="2"/>
+              <path class="mouth" d="M 65 110 Q 100 145 135 110 Z" fill="#ff3333" stroke="#000" stroke-width="2"/>
+              <rect x="50" y="152" width="100" height="12" rx="6" fill="#ff0000" stroke="#000" stroke-width="2"/>
+              <circle cx="100" cy="168" r="10" fill="#ffcc00" stroke="#000" stroke-width="2"/>
+              <circle cx="100" cy="170" r="3" fill="#000"/>
+              <path d="M 45 160 L 155 160 L 145 210 L 55 210 Z" fill="#0096ff" stroke="#000" stroke-width="2"/>
+              <path d="M 65 170 C 65 205 135 205 135 170 Z" fill="#ffffff" stroke="#000" stroke-width="2"/>
+            </svg>
+          </div>
+          <span class="mt-1 px-3 py-0.5 bg-blue-600 text-white font-black text-xs rounded-full shadow border border-blue-300">
+            డోరేమాన్ (Doraemon)
+          </span>
+        </div>
+
+        <!-- NOBITA SVG CHARACTER -->
+        <div id="nobitaChar" class="anim-nobita flex flex-col items-center">
+          <div class="relative w-32 h-40 sm:w-40 sm:h-48">
+            <svg viewBox="0 0 200 220" class="w-full h-full drop-shadow-lg">
+              <circle cx="100" cy="85" r="55" fill="#fcd5b5" stroke="#000" stroke-width="2"/>
+              <path d="M 45 75 Q 100 15 155 75 C 140 45 60 45 45 75 Z" fill="#332211" stroke="#000" stroke-width="2"/>
+              <circle cx="78" cy="82" r="18" fill="none" stroke="#000" stroke-width="4"/>
+              <circle cx="122" cy="82" r="18" fill="none" stroke="#000" stroke-width="4"/>
+              <line x1="96" y1="82" x2="104" y2="82" stroke="#000" stroke-width="3"/>
+              <g class="blink">
+                <circle cx="78" cy="82" r="5" fill="#000"/>
+                <circle cx="122" cy="82" r="5" fill="#000"/>
+              </g>
+              <path class="mouth" d="M 75 112 Q 100 135 125 112" fill="#ff6666" stroke="#000" stroke-width="2"/>
+              <path d="M 50 140 L 150 140 L 140 210 L 60 210 Z" fill="#ffcc00" stroke="#000" stroke-width="2"/>
+              <polygon points="100,140 80,155 120,155" fill="#ffffff" stroke="#000" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <span class="mt-1 px-3 py-0.5 bg-amber-500 text-slate-950 font-black text-xs rounded-full shadow border border-amber-300">
+            నోబితా (Nobita)
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Controls Row -->
+      <div class="pt-3 border-t border-amber-400/30 flex flex-wrap items-center justify-between gap-3 no-print">
+        <button id="playBtn" onclick="playInvitationVideo()" class="px-6 py-2.5 bg-gradient-to-r from-amber-400 to-yellow-500 text-red-950 font-black text-sm rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition flex items-center gap-2">
+          <span>▶ ప్లే చేయండి (Play Telugu Video)</span>
+        </button>
+
+        <button onclick="shareOnWhatsApp()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center gap-1.5">
+          <span>📲 వాట్సాప్‌లో పంపండి (Share)</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Official Invitation Details Card -->
+    <div class="bg-amber-50 text-slate-900 rounded-3xl p-6 border-2 border-amber-300 shadow-lg space-y-4">
+      <div class="text-center border-b border-amber-200 pb-3">
+        <span class="text-xs font-black uppercase text-red-700 tracking-widest">ప్రత్యేక ఆహ్వానం • OFFICIAL INVITATION</span>
+        <h2 class="text-xl sm:text-2xl font-black text-red-900 mt-1">
+          శ్రీ వినాయక చవితి మహోత్సవాలు 2026
+        </h2>
+        <p class="text-xs font-bold text-amber-800">
+          రాయల్ యంగ్ బాయ్స్ అసోసియేషన్ (Royal Young Boys Association)
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-bold text-slate-700">
+        <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-sm text-center">
+          <span class="text-amber-800 block text-[10px] uppercase font-black">📅 ఈవెంట్ తేదీ (Date)</span>
+          <span class="text-base font-black text-red-800 block mt-0.5">ఈ శుక్రవారం (Friday)</span>
+          <span class="text-[11px] text-slate-500 font-semibold">25 సెప్టెంబర్ 2026</span>
+        </div>
+
+        <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-sm text-center">
+          <span class="text-amber-800 block text-[10px] uppercase font-black">⏰ సమయం (Time)</span>
+          <span class="text-base font-black text-red-800 block mt-0.5">మధ్యాహ్నం 12:30 PM</span>
+          <span class="text-[11px] text-slate-500 font-semibold">నుండి అన్నసంతర్పణ</span>
+        </div>
+
+        <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-sm text-center">
+          <span class="text-amber-800 block text-[10px] uppercase font-black">📍 స్థలం (Venue)</span>
+          <span class="text-xs font-black text-red-800 block mt-0.5">రాయల్ యంగ్ బాయ్స్ గణేష్ మండపం</span>
+          <span class="text-[10px] text-slate-500 font-semibold">విశాఖపట్నం / గ్రామ మండపం</span>
+        </div>
+      </div>
+
+      <div class="bg-red-50 p-4 rounded-2xl border border-red-200 text-center text-xs text-red-950 font-bold space-y-1">
+        <p class="text-sm font-black text-red-800">
+          "మన బంధువులు, మిత్రులు, పొరుగువారందరూ కుటుంబ సమేతంగా విచ్చేసి గణనాథుని తీర్థ ప్రసాదాలు స్వీకరించవలసిందిగా కోరుచున్నాము."
+        </p>
+        <p class="text-[11px] text-slate-600">
+          — రాయల్ యంగ్ బాయ్స్ కమిటీ సభ్యులు & మిత్రబృందం 🚩
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const dialogueLines = [
+      {
+        speaker: 'doraemon',
+        text: 'నమస్కారం యజమానులారా! నా పేరు డోరేమాన్! 🤖',
+        audioText: 'నమస్కారం యజమానులారా! నా పేరు డోరేమాన్!'
+      },
+      {
+        speaker: 'nobita',
+        text: 'మరియు నా పేరు నోబితా! మన రాయల్ యంగ్ బాయ్స్ గణేష్ మండపం వద్ద గొప్ప కార్యక్రమం ఉంది! 👦',
+        audioText: 'మరియు నా పేరు నోబితా! మన రాయల్ యంగ్ బాయ్స్ గణేష్ మండపం వద్ద గొప్ప కార్యక్రమం ఉంది!'
+      },
+      {
+        speaker: 'doraemon',
+        text: 'అవును నోబితా! ఈ శుక్రవారం మధ్యాహ్నం 12:30 గంటల నుండి శ్రీ వినాయక స్వామి వారి మహాగొప్ప అన్నసంతర్పణ జరుగుతోంది! 🍲',
+        audioText: 'అవును నోబితా! ఈ శుక్రవారం మధ్యాహ్నం 12:30 గంటల నుండి శ్రీ వినాయక స్వామి వారి మహాగొప్ప అన్నసంతర్పణ జరుగుతోంది!'
+      },
+      {
+        speaker: 'nobita',
+        text: 'మన మిత్రులు, బంధువులు, పొరుగువారందరూ తప్పకుండా వచ్చి స్వామివారి ప్రసాదం స్వీకరించాలని కోరుకుంటున్నాం! 🚩',
+        audioText: 'మన మిత్రులు, బంధువులు, పొరుగువారందరూ తప్పకుండా వచ్చి స్వామివారి ప్రసాదం స్వీకరించాలని కోరుకుంటున్నాం!'
+      },
+      {
+        speaker: 'doraemon',
+        text: 'అందరూ తప్పక రండి! జై శ్రీ గణేష్! 🕉️',
+        audioText: 'అందరూ తప్పక రండి! జై శ్రీ గణేష్!'
+      }
+    ];
+
+    let currentStep = 0;
+    let isPlaying = false;
+
+    function speakText(text, callback) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'te-IN';
+        utterance.rate = 0.95;
+        utterance.onend = () => { if (callback) callback(); };
+        utterance.onerror = () => { if (callback) callback(); };
+        window.speechSynthesis.speak(utterance);
+      } else {
+        setTimeout(() => { if (callback) callback(); }, 3500);
+      }
+    }
+
+    function playStep(stepIndex) {
+      if (stepIndex >= dialogueLines.length) {
+        document.getElementById('dialogueText').innerText = '✨ ఆహ్వాన సందేశం పూర్తి అయింది! ఈ శుక్రవారం అన్నసంతర్పణకి అందరికీ స్వాగతం! 🚩';
+        document.getElementById('doraemonChar').classList.remove('talking');
+        document.getElementById('nobitaChar').classList.remove('talking');
+        isPlaying = false;
+        document.getElementById('playBtn').innerText = '▶ మళ్ళీ ప్లే చేయండి (Replay Video)';
+        return;
+      }
+
+      const item = dialogueLines[stepIndex];
+      document.getElementById('dialogueText').innerText = item.text;
+
+      if (item.speaker === 'doraemon') {
+        document.getElementById('doraemonChar').classList.add('talking');
+        document.getElementById('nobitaChar').classList.remove('talking');
+      } else {
+        document.getElementById('nobitaChar').classList.add('talking');
+        document.getElementById('doraemonChar').classList.remove('talking');
+      }
+
+      speakText(item.audioText, () => {
+        if (isPlaying) {
+          setTimeout(() => playStep(stepIndex + 1), 600);
+        }
+      });
+    }
+
+    function playInvitationVideo() {
+      isPlaying = true;
+      currentStep = 0;
+      document.getElementById('playBtn').innerText = '⏳ ప్లే అవుతోంది... (Playing)';
+      playStep(0);
+    }
+
+    function shareOnWhatsApp() {
+      const msg = `🕉️ *రాయల్ యంగ్ బాయ్స్ గణేష్ మహోత్సవాలు 2026*\n\n` +
+        `🍲 *మహా అన్నసంతర్పణ ఆహ్వాన పత్రిక* 🍲\n\n` +
+        `🤖 *డోరేమాన్ & నోబితా ప్రత్యేక ఆహ్వానం:* \n` +
+        `నమస్కారం! మన రాయల్ యంగ్ బాయ్స్ గణేష్ మండపం వద్ద *ఈ శుక్రవారం మధ్యాహ్నం 12:30 PM* నుండి మహాగొప్ప అన్నసంతర్పణ జరుగుతోంది.\n\n` +
+        `📅 *తేదీ:* ఈ శుక్రవారం (25-09-2026)\n` +
+        `⏰ *సమయం:* మధ్యాహ్నం 12:30 గంటల నుండి\n` +
+        `📍 *స్థలం:* రాయల్ యంగ్ బాయ్స్ గణేష్ మండపం\n\n` +
+        `మన మిత్రులు, బంధువులు, పొరుగువారందరూ తప్పకుండా కుటుంబ సమేతంగా వచ్చి స్వామివారి ప్రసాదం స్వీకరించాలని ప్రార్థన! 🚩\n\n` +
+        `— రాయల్ యంగ్ బాయ్స్ కమిటీ సభ్యులు`;
+
+      const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>

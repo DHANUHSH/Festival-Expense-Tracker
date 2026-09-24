@@ -31,6 +31,8 @@ export default function PrasadamManager({
     setIsAddOpen(false);
   };
 
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Header Banner */}
@@ -48,14 +50,48 @@ export default function PrasadamManager({
           </p>
         </div>
 
-        <button
-          onClick={() => setIsAddOpen(true)}
-          className="px-5 py-3 bg-white text-orange-950 font-black rounded-2xl shadow-lg hover:bg-orange-100 transition flex items-center gap-2 text-sm shrink-0"
-        >
-          <Plus className="w-5 h-5 text-orange-600" />
-          <span>{t.addSponsor}</span>
-        </button>
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={() => setShowVideoModal(true)}
+            className="px-5 py-3 bg-amber-400 hover:bg-amber-300 text-red-950 font-black rounded-2xl shadow-lg transition flex items-center gap-2 text-sm shrink-0"
+          >
+            <span>🎬 డోరేమాన్ & నోబితా ఆహ్వానం (Video Invite)</span>
+          </button>
+          <button
+            onClick={() => setIsAddOpen(true)}
+            className="px-5 py-3 bg-white text-orange-950 font-black rounded-2xl shadow-lg hover:bg-orange-100 transition flex items-center gap-2 text-sm shrink-0"
+          >
+            <Plus className="w-5 h-5 text-orange-600" />
+            <span>{t.addSponsor}</span>
+          </button>
+        </div>
       </div>
+
+      {/* Doraemon Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-red-950 rounded-3xl max-w-4xl w-full border-2 border-amber-400 overflow-hidden shadow-2xl space-y-2">
+            <div className="p-4 bg-red-900 flex justify-between items-center text-amber-300 font-bold border-b border-amber-400/40">
+              <span className="flex items-center gap-2 text-sm font-black">
+                <span>🤖 Doraemon & Nobita Telugu Video Invitation</span>
+              </span>
+              <button
+                onClick={() => setShowVideoModal(false)}
+                className="text-white hover:text-amber-300 font-black text-xl"
+              >
+                ✕ Close
+              </button>
+            </div>
+            <div className="w-full h-[550px] bg-black">
+              <iframe
+                src="/doraemon_invitation.html"
+                title="Doraemon & Nobita Telugu Anna Santharpana Invitation"
+                className="w-full h-full border-0"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Sponsors Table */}
